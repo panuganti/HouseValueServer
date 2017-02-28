@@ -1,0 +1,10 @@
+.vs
+packages
+NewsSwipesServer/bin
+
+GoogleDatastore/*
+HouseValueServer/Properties/PublishProfiles/
+
+NewsSwipesServer/obj
+**/bin/
+**obj/
