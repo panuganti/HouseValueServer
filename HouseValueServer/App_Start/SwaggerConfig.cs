@@ -5,11 +5,11 @@ using System.Web.Http.Description;
 using Swashbuckle.Application;
 using Swashbuckle.Swagger;
 using WebActivatorEx;
-using CelebriTweesServer;
+using HouseValueServer;
 
 [assembly: PreApplicationStartMethod(typeof(SwaggerConfig), "Register")]
 
-namespace CelebriTweesServer
+namespace HouseValueServer
 {
     public class SwaggerConfig
     {
