@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace CelebriTweesServer.Controllers
+namespace HouseValueServer.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FeedController : ApiController
