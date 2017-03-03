@@ -9,6 +9,7 @@ using HtmlAgilityPack;
 using System.Net;
 using System.Xml.Linq;
 using System.Runtime.Serialization;
+using DataContracts;
 
 namespace ParseHousingData
 {
@@ -42,9 +43,6 @@ namespace ParseHousingData
                 var detailNode = htmlDoc.GetElementbyId("detailOverview");
                 var headerNode = htmlDoc.GetElementbyId("detailHeaderFixed");
                 var detailNodes = GetNodesOfAClass(detailNode, "aboutDetail");
-
-                housingData.property_type = GetNodesOfAClass(headerNode, "locName").First().InnerText;
-                housingData.apartment_type = "";
 
                 var detailAddress = GetNodesOfAClass(headerNode, "detailAddress").First().InnerText;
                 string address = detailAddress;

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace ParseHousingData
+namespace DataContracts
 {
     [DataContract]
     public class HousingData
@@ -17,8 +17,6 @@ namespace ParseHousingData
         public int floor_count { get; set; } 
         [DataMember]
         public int floor_number { get; set; } 
-        [DataMember]
-        public PropertyType property_type { get; set; } //
         [DataMember]
         public int age_of_property { get; set; } //
         [DataMember]
@@ -61,7 +59,6 @@ namespace ParseHousingData
             price_per_sqft = housing.result.per_square_feet_rate;
             floor_count = housing.result.floor_count;
             floor_number = housing.result.floor_number;
-            property_type = housing.result.property_type;
             age_of_property = housing.result.age_of_property;
             under_construction = housing.result.under_construction;
             built_up_area = housing.result.built_up_area;
@@ -71,11 +68,5 @@ namespace ParseHousingData
             region_name = housing.result.region_name;
             city_name = housing.result.city_name;
         }
-    }
-
-    public enum PropertyType
-    {
-        Apartment,
-        Independent
     }
 }
