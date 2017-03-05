@@ -57,9 +57,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataContracts\DataContracts.csproj">
+    <ProjectReference Include="..\DataContracts\HouseValueLibrary.csproj">
       <Project>{23f91a0f-bd45-4589-8880-666cd6780af2}</Project>
-      <Name>DataContracts</Name>
+      <Name>HouseValueLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

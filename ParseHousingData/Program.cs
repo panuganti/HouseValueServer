@@ -10,7 +10,7 @@ using System.Net;
 using System.Xml.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
-using DataContracts;
+using HouseValueLibrary;
 
 namespace ParseHousingData
 {
