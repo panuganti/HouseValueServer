@@ -9,6 +9,7 @@ using HtmlAgilityPack;
 using System.Net;
 using System.Xml.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using DataContracts;
 
 namespace ParseHousingData
@@ -17,16 +18,31 @@ namespace ParseHousingData
     {
         static void Main(string[] args)
         {
+            string housingDir = @"F:\OldComputer\E\NMW\DataScraping\HousingData\ScrapingHousingData\ScrapingHousingData\HousingSaleData";
+            string outputDir = @"F:\GitHub\HouseValueServer\Data\Housing";
+            ParseHousingData(housingDir, outputDir);
         }
 
         static void ParseHousingData(string inputDir, string outputDir)
         {
-            var files = Directory.GetFiles(inputDir);
+
+            var files = Directory.GetFiles(inputDir).OrderBy(f => int.Parse(Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(f)))).ToArray();
             foreach(var file in files)
             {
+                Console.WriteLine("Processing {0}", Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file)));
+                if (int.Parse(Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(file))) < 17388 ){ continue;}
                 var housingJson = File.ReadAllText(file);
                 var housing = JsonConvert.DeserializeObject<Housing>(housingJson);
-                File.WriteAllText(Path.Combine(outputDir, Path.GetFileName(file)), JsonConvert.SerializeObject(new HousingComData(housing)));
+                if (housing?.result == null) { continue;}
+                if (housing.result.id > 100000 && housing.result.id < 100507) { continue; }
+                var housingData = new HousingComData(housing);
+                var data = GetData(new Location() { lat = housing.result.latitude, lng = housing.result.longitude });
+                if (data.pincode == null) continue;                
+                housingData.pincode = data.pincode;
+                housingData.city_name = data.city_name ?? housingData.city_name;
+                housingData.region_name = data.region_name ?? housingData.region_name;
+                File.WriteAllText(Path.Combine(outputDir, Path.GetFileNameWithoutExtension(file)), JsonConvert.SerializeObject(housingData, Formatting.Indented));
+                Thread.Sleep(2000);
             }
         }
 
@@ -88,6 +104,58 @@ namespace ParseHousingData
                     continue;
                 }
                 File.WriteAllText(Path.Combine(outputDir, string.Format("{0}.json", Path.GetFileNameWithoutExtension(file))), JsonConvert.SerializeObject(housingData));
+            }
+        }
+
+        static Data GetData(Location loc)
+        {
+            try
+            {
+                return GetLocationData(loc);
+            }
+            catch (Exception)
+            {
+                Thread.Sleep(120000);
+                return GetLocationData(loc);
+            }
+        }
+
+        static Data GetLocationData(Location loc)
+        {                        
+            var requestUri = $"http://maps.google.com/maps/api/geocode/json?latlng={loc.lat},{loc.lng}&key=AIzaSyCg3p11jiOK4-9_e5Gt6Q683wubEWfT8SA";
+
+            var request = WebRequest.Create(requestUri);
+            using (Stream stream = request.GetResponse().GetResponseStream())
+            {
+                StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                String responseString = reader.ReadToEnd();
+                var geoOutput = JsonConvert.DeserializeObject<GeoCode>(responseString);
+                if (geoOutput.status == "OVER_QUERY_LIMIT")
+                {
+                    Thread.Sleep(120000);
+                    throw new Exception("Query Over Limit");
+                }
+                var geo = new Location
+                {
+                    lat = geoOutput.results[0].geometry.location.lat,
+                    lng = geoOutput.results[0].geometry.location.lng
+                };
+                var city =
+                    geoOutput.results[0].address_components.FirstOrDefault(
+                        t => t.types.Contains("locality") && t.types.Contains("political"));
+                var pincode = geoOutput.results[0].address_components.FirstOrDefault(t => t.types.Contains("postal_code"));
+                var region =
+                    geoOutput.results[0].address_components.FirstOrDefault(
+                        t => t.types.Contains("sublocality_level_1") && t.types.Contains("sublocality"));
+                var data = new Data
+                {
+                     
+                    city_name = city?.short_name,
+                    pincode = pincode?.short_name,
+                    region_name = region?.short_name,
+                    location = geo
+                };
+                return data;
             }
         }
 

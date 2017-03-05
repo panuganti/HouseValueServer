@@ -13,9 +13,9 @@ namespace FeatureExtraction
     {
         static void Main(string[] args)
         {
-            string inputDir = "";
-            string outFile = "";
-            var allFiles = Directory.GetFiles(inputDir);
+            string inputDir = @"F:\GitHub\HouseValueServer\Data\Housing";
+            string outFile = @"F:\GitHub\HouseValueServer\Data\Features.tsv";
+            var allFiles = Directory.GetFiles(inputDir).Where(f => int.Parse(Path.GetFileNameWithoutExtension(f)) < 17389);
             using (StreamWriter writer = new StreamWriter(outFile))
             {
                 writer.WriteLine("Id\tPincode\tPropertyType\tFloorCategory\tSqft\tBedrooms\tBathrooms\tStatus\tAge\tPricePerSqft");

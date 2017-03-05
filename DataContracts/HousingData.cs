@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace DataContracts
 {
@@ -33,6 +34,8 @@ namespace DataContracts
         public string city_name { get; set; }
         [DataMember]
         public string pincode { get; set; }
+        [DataMember]
+        public DateTime date_of_pricing { get; set; }
     }
 
     [DataContract]
@@ -49,9 +52,13 @@ namespace DataContracts
         public int hestimate { get; set; }
         [DataMember]
         public int city_id { get; set; }
+
         public HousingComData(Housing housing)
         {
-            hestimate = housing.result.hestimate.value;
+            if (housing.result.hestimate != null)
+            {
+                hestimate = housing.result.hestimate.value;
+            }
             city_id = housing.result.city_id;
             id = housing.result.id;
             latitude = housing.result.latitude;
@@ -59,7 +66,10 @@ namespace DataContracts
             price_per_sqft = housing.result.per_square_feet_rate;
             floor_count = housing.result.floor_count;
             floor_number = housing.result.floor_number;
-            age_of_property = housing.result.age_of_property;
+            age_of_property = housing.result.age_of_property > 0
+                ? housing.result.age_of_property
+                : Convert.ToInt32(
+                    (housing.result.date_added - DateTime.Parse(housing.result.age_of_property_date)).TotalDays/30);
             under_construction = housing.result.under_construction;
             built_up_area = housing.result.built_up_area;
             bedroom_count = housing.result.bedroom_count;
@@ -67,6 +77,7 @@ namespace DataContracts
             main_entrance_facing = housing.result.main_entrance_facing;
             region_name = housing.result.region_name;
             city_name = housing.result.city_name;
+            date_of_pricing = housing.result.date_added;
         }
     }
 }
