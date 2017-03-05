@@ -15,9 +15,9 @@ namespace HouseValueServer.Controllers
     {
         private string apiKeyFilename = "apiKey.txt";
         private string apiKey = "";
+
         public FeedController()
         {
-            apiKey = File.ReadAllLines(apiKeyFilename).First();
         }
 
         // POST feed/postarticle
@@ -41,6 +41,7 @@ namespace HouseValueServer.Controllers
         {
             try
             {
+                apiKey = File.ReadAllLines(apiKeyFilename).First();
                 var housingData = new HousingData();
                 housingData.age_of_property = Convert.ToInt32((DateTime.Now - new DateTime(house.YearConstructed, 1, 1)).TotalDays / 30);
                 housingData.bathroom_count = house.Bathrooms;
@@ -57,7 +58,7 @@ namespace HouseValueServer.Controllers
                 var featureVector = Utils.HousingFeatures(housingData).ToArray();
                 return await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
