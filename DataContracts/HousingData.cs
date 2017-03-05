@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace DataContracts
+namespace HouseValueLibrary
 {
     [DataContract]
     public class HousingData
@@ -9,9 +9,9 @@ namespace DataContracts
         [DataMember]
         public int id { get; set; }
         [DataMember]
-        public float latitude { get; set; }
+        public double latitude { get; set; }
         [DataMember]
-        public float longitude { get; set; }
+        public double longitude { get; set; }
         [DataMember]
         public float price_per_sqft { get; set; }
         [DataMember]
