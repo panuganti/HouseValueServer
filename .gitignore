@@ -8,6 +8,7 @@ packages/
 .vs/
 Data/
 HouseValueServer/apiKey.txt
+HouseValueServer/Properties/PublishProfiles
 
 *~
 *.sw[mnpcod]
