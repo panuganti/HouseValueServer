@@ -57,7 +57,7 @@ namespace HouseValueServer.Controllers
                 var featureVector = Utils.HousingFeatures(housingData).ToArray();
                 return await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return 0;
             }
