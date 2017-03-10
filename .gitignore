@@ -6,9 +6,8 @@ packages/
 **/bin
 **/wwwarchishainnovatorscom-eaed27291ff7.json
 .vs/
-Data/
+HouseValueServer/Properties/PublishProfiles/
 HouseValueServer/apiKey.txt
-HouseValueServer/Properties/PublishProfiles
 
 *~
 *.sw[mnpcod]

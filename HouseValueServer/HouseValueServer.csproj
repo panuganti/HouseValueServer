@@ -157,7 +157,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Global.asax" />
-    <Content Include="Properties\PublishProfiles\HouseValueServer - Web Deploy.pubxml.user" />
     <Content Include="Web.config" />
     <Content Include="packages.config" />
   </ItemGroup>
@@ -171,8 +170,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\HouseValueServer - Web Deploy %282%29.pubxml" />
-    <None Include="Properties\PublishProfiles\HouseValueServer - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

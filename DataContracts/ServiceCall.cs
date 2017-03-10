@@ -55,7 +55,7 @@ namespace HouseValueLibrary
                 {
                     string result = await response.Content.ReadAsStringAsync();
                     var serviceResponse = JsonConvert.DeserializeObject<Response>(result);
-                    string value = serviceResponse.Results.output1.value.Values[0][9];
+                    string value = serviceResponse.Results.output1.value.Values[0][10];
                     return double.Parse(value);
                 }
                 else
