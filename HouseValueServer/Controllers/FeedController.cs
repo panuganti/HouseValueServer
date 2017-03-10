@@ -1,5 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using HouseValueLibrary;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -8,6 +13,8 @@ namespace CelebriTweesServer.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FeedController : ApiController
     {
+        private string apiKeyFilename = "apiKey.txt";
+        private string apiKey = "";
 
         public FeedController()
         {
@@ -30,9 +37,25 @@ namespace CelebriTweesServer.Controllers
 
         [HttpPost]
         [Route("feed/getestimate")]
-        public double GetEstimate([FromBody] Property property)
+        public async Task<double> GetEstimate([FromBody] Property house)
         {
-            return 5000;
+            apiKey = "";
+            var housingData = new HousingData();
+            housingData.age_of_property = Convert.ToInt32((DateTime.Now - new DateTime(house.YearConstructed, 1, 1)).TotalDays / 30);
+            housingData.bathroom_count = house.Bathrooms;
+            housingData.bedroom_count = house.Bedrooms;
+            housingData.built_up_area = Convert.ToInt32(house.BuiltUpArea);
+            housingData.pincode = house.Pincode == null ? "500027" : house.Pincode;
+            housingData.date_of_pricing = DateTime.UtcNow;
+            housingData.floor_count = house.FloorCount;
+            housingData.floor_number = house.FloorNumber;
+            housingData.id = 0;
+            housingData.latitude = house.LatLng.Lat;
+            housingData.longitude = house.LatLng.Lng;
+            housingData.under_construction = house.UnderConstruction;
+            var featureVector = Utils.HousingFeatures(housingData).ToArray();
+            var value = await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
+            return Convert.ToInt32(value * housingData.built_up_area);
         }
 
     }
@@ -60,6 +83,14 @@ namespace CelebriTweesServer.Controllers
         public int Bathrooms { get; set; }
         [DataMember]
         public int Bedrooms { get; set; }
+        [DataMember]
+        public string Pincode { get; set; }
+        [DataMember]
+        public bool UnderConstruction { get; set; }
+        [DataMember]
+        public int FloorCount { get; set; }
+        [DataMember]
+        public int FloorNumber { get; set; }
     }
 
     [DataContract]
