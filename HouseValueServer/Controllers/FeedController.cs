@@ -7,8 +7,13 @@ using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using HouseValueLibrary;
+using System;
+using System.Threading.Tasks;
+using System.Linq;
+using System.IO;
 
-namespace CelebriTweesServer.Controllers
+namespace HouseValueServer.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FeedController : ApiController
@@ -57,7 +62,6 @@ namespace CelebriTweesServer.Controllers
             var value = await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
             return Convert.ToInt32(value * housingData.built_up_area);
         }
-
     }
 
     [DataContract]

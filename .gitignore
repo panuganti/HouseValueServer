@@ -9,7 +9,6 @@ packages/
 HouseValueServer/Properties/PublishProfiles/
 HouseValueServer/apiKey.txt
 
-
 *~
 *.sw[mnpcod]
 *.log

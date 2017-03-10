@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Http;
 
-namespace CelebriTweesServer.Controllers
+namespace HouseValueServer.Controllers
 {
     public class UserController : ApiController
     {
