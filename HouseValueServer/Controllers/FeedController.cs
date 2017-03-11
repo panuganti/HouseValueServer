@@ -60,7 +60,7 @@ namespace HouseValueServer.Controllers
             housingData.under_construction = house.UnderConstruction;
             var featureVector = Utils.HousingFeatures(housingData).ToArray();
             var value = await ServiceCall.InvokeRequestResponseService(featureVector, apiKey);
-            return Convert.ToInt32(value * housingData.built_up_area);
+            return Convert.ToInt32(1000*(Convert.ToInt32(value * housingData.built_up_area/1000)));
         }
     }
 
