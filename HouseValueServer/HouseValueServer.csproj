@@ -170,6 +170,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="HouseValueServer - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

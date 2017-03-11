@@ -8,6 +8,8 @@ packages/
 .vs/
 HouseValueServer/Properties/PublishProfiles/
 HouseValueServer/apiKey.txt
+HouseValueServer/HouseValueServer - Web Deploy.pubxml
+HouseValueServer/HouseValueServer - Web Deploy.pubxml.user
 
 *~
 *.sw[mnpcod]
