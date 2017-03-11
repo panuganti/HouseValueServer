@@ -44,7 +44,7 @@ namespace HouseValueServer.Controllers
         [Route("feed/getestimate")]
         public async Task<double> GetEstimate([FromBody] Property house)
         {
-            apiKey = "GylIN/LmsVKP+yKLYjebrvPFfir2W9h08X2Rfz9l+oVq/nL4swwDPMqz4fZbv13i5YMV9ArzA4+rI5CddGlMQA==";
+            apiKey = "";
             var housingData = new HousingData();
             housingData.age_of_property = Convert.ToInt32((DateTime.Now - new DateTime(house.YearConstructed, 1, 1)).TotalDays / 30);
             housingData.bathroom_count = house.Bathrooms;
